@@ -1,3 +1,12 @@
+# /tests/test_simplify.py
+
+import pytest 
+# --- Path Fix ---
+import sys, os
+# Add the project root to the path so 'src' can be found
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))) 
+# ----------------
+
 from src.simplify import simplify_path
 
 def test_examples():
@@ -20,13 +29,4 @@ def test_edge_many_parent_ups_beyond_root():
 # --- Longer Scenario ---
 def test_long_nested_path_with_mixed_segments():
     p = "/home//user/./projects/../projects/python/./.././ds///week4/../../notes/././../"
-    # Walkthrough:
-    # /home/user/projects -> /home/user
-    # /home/user/projects/python -> /home/user/projects/python
-    # then up -> /home/user/projects
-    # then ds -> /home/user/projects/ds
-    # then week4 -> /home/user/projects/ds/week4
-    # then ../../ -> /home/user/projects
-    # then notes -> /home/user/projects/notes
-    # then ../ -> /home/user/projects
     assert simplify_path(p) == "/home/user/projects"
